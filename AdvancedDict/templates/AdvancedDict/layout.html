@@ -16,10 +16,10 @@
             <a class="navbar-brand mb-0 h1" href="{% url 'index' %}" style="font-weight: 600;">MegaDict</a>
           
             <div>
-            <!-- <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' request.user %}"><strong>{{ user.username }}</strong></a>
+                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
@@ -27,20 +27,20 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'following' request.user.id %}">Following</a>
+                        <a class="nav-link" href="#">Following</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log Out</a>
+                        <a class="nav-link" href="{% url 'logout'%}">Log Out</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log In</a>
+                        <a class="nav-link" href="{% url 'login'%}">Log In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                 {% endif %}
-              </ul>-->
+              </ul>
             </div>
             </div>
           </nav>
