@@ -19,6 +19,9 @@ from .models import User
 
 # export PYTHONPATH=c:/users/admin/appdata/local/programs/python/python311/lib/site-packages
 
+def index(request):
+    return render(request, "AdvancedDict/index.html")
+
 def login_view(request):
     if request.method == "POST":
 
