@@ -44,7 +44,9 @@ def index(request):
     if request.method =="POST":
         form = New_word(request.POST)
         if form.is_valid():
+
             new_word_form = form.save(commit=False)
+
             # Sending request to the API
             url = "https://text-translator2.p.rapidapi.com/translate"
             headers = {
@@ -59,8 +61,11 @@ def index(request):
             }
             
             response = requests.post(url, data=payload, headers=headers)
-            print(response.json())
             new_word_form.timestamp = datetime.now() 
+            new_word_form.translation = response.json()["data"]["translatedText"]
+            new_word_form.user = request.user
+            new_word_form.save()
+            return HttpResponseRedirect(reverse('index'))
 
     else:
         return render(request, "AdvancedDict/index.html", {
