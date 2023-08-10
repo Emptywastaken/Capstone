@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from django.db import IntegrityError
 
@@ -15,10 +16,22 @@ from django.core.paginator import Paginator
 
 from datetime import datetime
 
-from .models import User
+from .models import User, Word
 
 # export PYTHONPATH=c:/users/admin/appdata/local/programs/python/python311/lib/site-packages
 
+# Forms
+'''
+class NewWord(ModelForm):
+    class Meta:
+        model = Word
+        fields = ("text", "source_language", "target_language")
+        
+        widgets = {
+            "text": forms.CharField(attrs={"class":"form-control", "id":"newPostText", "maxlength":"50",}),
+            "text": forms.ChoiceField(attrs={"class":"form-control", "id":"newPostText", "maxlength":"50",}),
+        }
+'''
 def index(request):
     return render(request, "AdvancedDict/index.html")
 
