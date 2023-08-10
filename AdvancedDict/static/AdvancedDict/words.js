@@ -81,4 +81,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
     })
     
+    // translation function
+    document.querySelectorAll('.btn-outline-primary').forEach((translate_btn => {
+        translate_btn.onclick = () => {
+
+            const parentDiv = translate_btn.parentElement.parentElement;
+            const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
+            const translation = text.getAttribute('data-translation');
+            console.log(translation);
+            text.innerHTML += ' / ' + translation;
+        }
+    }))
 })
