@@ -18,7 +18,13 @@ from datetime import datetime
 
 from .models import User, NewWord
 
+import requests, os, json
+from dotenv import load_dotenv
 # export PYTHONPATH=c:/users/admin/appdata/local/programs/python/python311/lib/site-packages
+
+load_dotenv()
+API_KEY=os.getenv('API_KEY')
+
 
 # Forms
 
@@ -35,9 +41,31 @@ class New_word(ModelForm):
 
 
 def index(request):
-    return render(request, "AdvancedDict/index.html", {
-        "form": New_word,
-        })
+    if request.method =="POST":
+        form = New_word(request.POST)
+        if form.is_valid():
+            new_word_form = form.save(commit=False)
+            # Sending request to the API
+            url = "https://text-translator2.p.rapidapi.com/translate"
+            headers = {
+                "content-type": "application/x-www-form-urlencoded",
+                "X-RapidAPI-Key": API_KEY,
+                "X-RapidAPI-Host": "text-translator2.p.rapidapi.com"
+            }
+            payload = {
+                "source_language": new_word_form.sourceLanguage,
+                "target_language": new_word_form.targetLanguage,
+                "text": new_word_form.text,
+            }
+            
+            response = requests.post(url, data=payload, headers=headers)
+            print(response.json())
+            new_word_form.timestamp = datetime.now() 
+
+    else:
+        return render(request, "AdvancedDict/index.html", {
+            "form": New_word,
+            })
 
 def login_view(request):
     if request.method == "POST":

@@ -4,9 +4,10 @@
 {% block body %}
 <div class="container-lg">
 {% if user.is_authenticated %}
-    <form metod="post" style="margin-top: 24px;">
+    <form method="post" style="margin-top: 120px;" action="{% url 'index' %}">
         {% csrf_token %}
         {{ form }}
+        <br>
         <input type="submit" class="btn btn-outline-primary">
     </form>
 {% endif %}

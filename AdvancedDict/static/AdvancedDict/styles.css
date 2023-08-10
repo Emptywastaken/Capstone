@@ -5,3 +5,12 @@ h2 {
 form .btn{
     margin-top: 12px;
 }
+
+form label{
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+form select{
+    margin-bottom: 10px;
+}
