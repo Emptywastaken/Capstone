@@ -14,16 +14,20 @@
     {% if words %} <br><h1>Words</h1><hr> {% endif%}
 
     {% for word in words %}
-    <div class="row">
+    <div class="row" data-id="{{word.id}}">
         <div class="col">
             From
             {{word.get_sourceLanguage_display}}
             <strong class="wordText">{{word.text}}</strong>
             to
             {{word.get_targetLanguage_display}}
-            <strong class="wordTranslation">{{word.translation}}</strong>
+            <span class="wordTranslation">
+            <strong>{{word.translation}}</strong>
+            <span></span>
+            </span>
         </div>
-        <div class="col" style="text-align: right; margin-right: 12px;">
+        <div class="col buttoncol" style="text-align: right; margin-right: 12px;">
+            <button class="btn btn-outline-primary btn-sm" style="margin-right: 2px;">Translation</button>
             <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
             <button class="btn btn-outline-danger btn-sm">Delete</button>
         </div>

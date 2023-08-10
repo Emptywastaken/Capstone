@@ -74,6 +74,27 @@ def index(request):
             "words": words,
             })
 
+@csrf_exempt
+def edit(request, word_id):
+    try: 
+        word = NewWord.objects.get(pk = word_id)
+    except NewWord.DoesNotExist:
+        return JsonResponse({"error": "Word does not exist."}, status=404)
+    
+    # in case of attempt to access another user post
+    if request.user != word.user:
+        return JsonResponse({"error": "Cannot edit another user's word."}, status=404)
+    
+    if request.method == "PUT":
+        data = json.loads(request.body) 
+        if data.get("translation") is not None:
+            word.translation = data["translation"]
+            word.save()
+            return HttpResponse(status=204)
+        else:
+            return JsonResponse({"error": "Invalid request"}, status=400)
+
+
 def login_view(request):
     if request.method == "POST":
 
