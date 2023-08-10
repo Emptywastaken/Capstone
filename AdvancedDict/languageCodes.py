@@ -112,6 +112,8 @@ languages = [
     ('zh', 'Chinese (Simplified)')
 ]
 
+languages_map = dict(languages)
+
 language_codes = [
     'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 
     'bg', 'ca', 'ceb', 'ny', 'zh-CN', 'zh-TW', 'co', 'hr', 'cs', 'da', 

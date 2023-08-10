@@ -68,8 +68,10 @@ def index(request):
             return HttpResponseRedirect(reverse('index'))
 
     else:
+        words = NewWord.objects.filter(user = request.user).order_by('-timestamp')
         return render(request, "AdvancedDict/index.html", {
             "form": New_word,
+            "words": words,
             })
 
 def login_view(request):

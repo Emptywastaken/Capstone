@@ -4,12 +4,31 @@
 {% block body %}
 <div class="container-lg">
 {% if user.is_authenticated %}
-    <form method="post" style="margin-top: 120px;" action="{% url 'index' %}">
+    <form method="post" style="margin-top: 40px;" action="{% url 'index' %}">
         {% csrf_token %}
         {{ form }}
         <br>
         <input type="submit" class="btn btn-outline-primary">
     </form>
+
+    {% if words %} <br><h1>Words</h1><hr> {% endif%}
+
+    {% for word in words %}
+    <div class="row">
+        <div class="col">
+            From
+            {{word.get_sourceLanguage_display}}
+            <strong class="wordText">{{word.text}}</strong>
+            to
+            {{word.get_targetLanguage_display}}
+            <strong class="wordTranslation">{{word.translation}}</strong>
+        </div>
+        <div class="col" style="text-align: right; margin-right: 12px;">
+            <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
+            <button class="btn btn-outline-danger btn-sm">Delete</button>
+        </div>
+    </div><hr>    
+    {% endfor%}
 {% endif %}
 </div>
 {% endblock %}
