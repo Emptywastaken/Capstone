@@ -3,17 +3,19 @@ from django.contrib.auth.models import AbstractUser
 
 from datetime import datetime
 # Create your models here.
-# from language_codes import languages
+from . import languageCodes
 
 class User(AbstractUser):
     pass
 
-class entry(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.s("New Word", max_length=50)
-    source_language = models.CharField("Source language code",max_length=5)
-    target_language = models.CharField("Target language code",max_length=5)
-    translation = models.CharField("Translation", max_length=50)
-    
+class Word(models.Model):
 
-    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField("New Word", max_length=50)
+    translation = models.CharField("Translation", max_length=50)
+    source_language = models.CharField("Source language code",max_length=5, choices= languageCodes.languages)
+    target_language = models.CharField("Target language code",max_length=5, choices= languageCodes.languages)
+    timestamp = models.DateTimeField(default=datetime.now())
+
+
+   
