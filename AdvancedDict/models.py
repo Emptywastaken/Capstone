@@ -15,6 +15,8 @@ class NewWord(models.Model):
     sourceLanguage = models.CharField("Source language",max_length=5, choices=languageCodes.languages, default="en")
     targetLanguage = models.CharField("Target language",max_length=5, choices=languageCodes.languages, default="en")
     timestamp = models.DateTimeField(default=datetime.now())
-
+    
+    def __str__(self) -> str:
+        return f'{self.sourceLanguage} {self.text} to {self.targetLanguage} {self.translation}'
 
    
