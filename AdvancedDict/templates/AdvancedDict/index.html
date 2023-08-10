@@ -14,7 +14,7 @@
     {% if words %} <br><h1>Words</h1><hr> {% endif%}
 
     {% for word in words %}
-    <div class="row" data-id="{{word.id}}">
+    <div class="row align-items-start" data-id="{{word.id}}">
         <div class="col">
             From
             {{word.get_sourceLanguage_display}}
@@ -31,7 +31,7 @@
             <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
             <button class="btn btn-outline-danger btn-sm">Delete</button>
         </div>
-    </div><hr>    
+    </div><hr id="{{word.id}}">
     {% endfor%}
 {% endif %}
 </div>

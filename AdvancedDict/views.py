@@ -94,6 +94,9 @@ def edit(request, word_id):
         else:
             return JsonResponse({"error": "Invalid request"}, status=400)
 
+    elif request.method == "DELETE":
+        word.delete()
+        return HttpResponse(status=204)
 
 def login_view(request):
     if request.method == "POST":

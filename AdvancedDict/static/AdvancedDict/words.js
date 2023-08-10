@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     save_btn.style.display = "none";
                     text.innerHTML = inputField.value;
                     text.style.display = "inline";
-                    edit_btn.style.display = 'inline';
+                    edit_btn.style.display = "inline";
                });
            }
             buttonElement.prepend(save_btn);
@@ -59,6 +59,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
             console.log(text);
             console.log(form);
         }
+    })
+
+    // delete function 
+    document.querySelectorAll('.btn-outline-danger').forEach((delete_btn) => {
+
+        const parentDiv = delete_btn.parentElement.parentElement;
+        const wordId = parentDiv.getAttribute('data-id');
+        
+        // ajax request to edit post
+        delete_btn.onclick = () => {
+           fetch(`/edit/${wordId}`, {
+            method: 'DELETE',
+           })
+           .then(() => {
+                // console.log(result);
+                parentDiv.style.display = 'none';
+                document.querySelector(`#${wordId}`).style.display = 'none';
+    
+           });
+       }
+        
     })
     
 })
