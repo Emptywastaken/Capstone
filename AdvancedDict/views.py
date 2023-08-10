@@ -63,6 +63,7 @@ def index(request):
             response = requests.post(url, data=payload, headers=headers)
             new_word_form.timestamp = datetime.now() 
             new_word_form.translation = response.json()["data"]["translatedText"]
+            new_word_form.translation_edited = response.json()["data"]["translatedText"]
             new_word_form.user = request.user
             new_word_form.save()
             return HttpResponseRedirect(reverse('index'))
@@ -88,7 +89,7 @@ def edit(request, word_id):
     if request.method == "PUT":
         data = json.loads(request.body) 
         if data.get("translation") is not None:
-            word.translation = data["translation"]
+            word.translation_edited = data["translation"]
             word.save()
             return HttpResponse(status=204)
         else:

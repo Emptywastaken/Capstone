@@ -16,13 +16,13 @@
     {% for word in words %}
     <div class="row align-items-start" data-id="{{word.id}}">
         <div class="col">
-            From
-            {{word.get_sourceLanguage_display}}
+
+            {{word.get_sourceLanguage_display|capfirst}}
             <strong class="wordText">{{word.text}}</strong>
             to
             {{word.get_targetLanguage_display}}
             <span class="wordTranslation">
-            <strong>{{word.translation}}</strong>
+            <strong>{{word.translation_edited}}</strong>
             <span></span>
             </span>
         </div>
@@ -31,7 +31,10 @@
             <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
             <button class="btn btn-outline-danger btn-sm">Delete</button>
         </div>
-    </div><hr id="{{word.id}}">
+        <hr style="margin-top: 12px;">
+    </div>
+    {%empty%}
+    <br><h4 style="margin-top: 36px;">Words you add will display here...</h4><hr>
     {% endfor%}
 {% endif %}
 </div>

@@ -75,8 +75,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
            .then(() => {
                 // console.log(result);
                 parentDiv.style.display = 'none';
-                document.querySelector(`#${wordId}`).style.display = 'none';
-    
+
            });
        }
         
