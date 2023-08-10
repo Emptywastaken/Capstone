@@ -16,24 +16,28 @@ from django.core.paginator import Paginator
 
 from datetime import datetime
 
-from .models import User, Word
+from .models import User, NewWord
 
 # export PYTHONPATH=c:/users/admin/appdata/local/programs/python/python311/lib/site-packages
 
 # Forms
-'''
-class NewWord(ModelForm):
+
+class New_word(ModelForm):  
     class Meta:
-        model = Word
-        fields = ("text", "source_language", "target_language")
+        model = NewWord
+        fields = ("text", "sourceLanguage", "targetLanguage",)
         
         widgets = {
-            "text": forms.CharField(attrs={"class":"form-control", "id":"newPostText", "maxlength":"50",}),
-            "text": forms.ChoiceField(attrs={"class":"form-control", "id":"newPostText", "maxlength":"50",}),
+            "text": forms.TextInput(attrs={"class": "form-control", "maxlength": "50"}),
+            "sourceLanguage": forms.Select(attrs={"class": "form-select"}),
+            "targetLanguage": forms.Select(attrs={"class": "form-select"}),
         }
-'''
+
+
 def index(request):
-    return render(request, "AdvancedDict/index.html")
+    return render(request, "AdvancedDict/index.html", {
+        "form": New_word,
+        })
 
 def login_view(request):
     if request.method == "POST":
