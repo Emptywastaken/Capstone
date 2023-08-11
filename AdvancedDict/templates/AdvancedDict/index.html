@@ -1,5 +1,6 @@
 {% extends "AdvancedDict/layout.html" %}
 {% load static %}
+{% load tags_extra %}
 
 {% block body %}
 <div class="container-lg">
@@ -15,14 +16,17 @@
 
     {% for word in words %}
     <div class="row align-items-start" data-id="{{word.id}}">
-        <div class="col">
+        <div class="col align-items-start">
 
-            {{word.get_sourceLanguage_display|capfirst}}
-            <strong class="wordText">{{word.text}}</strong>
-            to
+       
+            <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.sourceLanguage }}.png" alt="{{ word.get_sourceLanguage_display }} Flag" height="16">
+            <!--{{word.get_sourceLanguage_display}}-->
+            <strong class="wordText">{{word.text|capfirst}}</strong>
+            to 
+            <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.targetLanguage }}.png" alt="{{ word.get_targetLanguage_display }} Flag" height="16">
             {{word.get_targetLanguage_display}}
             <span class="wordTranslation">
-            <strong data-translation="{{word.translation}}">{{word.translation_edited}}</strong>
+            <strong data-translation="{{word.translation}}">{{word.translation_edited|capfirst}}<span></span></strong>
             <span></span>
             </span>
         </div>

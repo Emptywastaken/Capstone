@@ -14,9 +14,11 @@ from django.forms import ModelForm
 
 from django.core.paginator import Paginator
 
+
 from datetime import datetime
 
 from .models import User, NewWord
+from . import languageCodes
 
 import requests, os, json
 from dotenv import load_dotenv
@@ -40,6 +42,7 @@ class New_word(ModelForm):
         }
 
 
+
 def index(request):
     if request.method =="POST":
         form = New_word(request.POST)
@@ -58,6 +61,7 @@ def index(request):
                 "source_language": new_word_form.sourceLanguage,
                 "target_language": new_word_form.targetLanguage,
                 "text": new_word_form.text,
+                
             }
             
             response = requests.post(url, data=payload, headers=headers)
@@ -73,6 +77,7 @@ def index(request):
         return render(request, "AdvancedDict/index.html", {
             "form": New_word,
             "words": words,
+            "dict": languageCodes.languages_to_countries_dict,
             })
 
 @csrf_exempt

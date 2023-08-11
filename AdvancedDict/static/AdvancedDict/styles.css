@@ -18,3 +18,8 @@ form label{
 form select{
     margin-bottom: 10px;
 }
+
+.col img {
+    margin-left: 4px;
+    margin-right: 2px;
+}
