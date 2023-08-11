@@ -89,7 +89,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
             const translation = text.getAttribute('data-translation');
             console.log(translation);
-            text.innerHTML += ' / ' + translation;
+            const translationTag = text.querySelector('span');
+            translationTag.innerHTML = '';
+            translationTag.innerHTML = ' / ' + translation;
+
         }
     }))
 })
