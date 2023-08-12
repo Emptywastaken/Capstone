@@ -5,11 +5,10 @@
 {% block body %}
 <div class="container-lg">
 {% if user.is_authenticated %}
-    <form method="post" style="margin-top: 40px;" action="{% url 'generate quiz' %}">
+    <form method="post" style="margin-top: 120px;" action="{% url 'generate quiz' %}">
         {% csrf_token %}
         {{ form }}
-        <br>
-        <input type="submit" class="btn btn-primary" value="Start">
+        <input type="submit" class="btn btn-primary btn-lg" value="Start">
     </form>
 {% endif %}
 </div>
