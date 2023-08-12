@@ -17,7 +17,7 @@ from django.core.paginator import Paginator
 
 from datetime import datetime
 
-from .models import User, NewWord
+from .models import User, NewWord, Quiz, Question, Answer
 from . import languageCodes
 
 import requests, os, json
@@ -41,7 +41,14 @@ class New_word(ModelForm):
             "targetLanguage": forms.Select(attrs={"class": "form-select"}),
         }
 
+class New_quiz(ModelForm):
+    class Meta:
+        model = Quiz
+        fields = ("difficulty",)
 
+        widgets = {
+            "difficulty": forms.Select(attrs={"class": "form-select"})
+        }
 
 def index(request):
     if request.method =="POST":
@@ -79,6 +86,35 @@ def index(request):
             "words": words,
             "dict": languageCodes.languages_to_countries_dict,
             })
+
+@csrf_exempt
+@login_required
+def generate_quiz(request):
+    if request.method == "POST":
+        form = New_quiz(request.POST)
+        if form.is_valid:
+            new_quiz_form = form.save(commit=False)
+            new_quiz_form.timestamp = datetime.now()
+            new_quiz_form.user = request.user
+            new_quiz_form.save()
+            print(new_quiz_form.pk)
+            return HttpResponseRedirect(f"quiz/{new_quiz_form.pk}")
+    else:
+        return render(request, "AdvancedDict/newQuiz.html", {
+            "form": New_quiz
+        })
+
+@csrf_exempt
+@login_required
+def get_quiz(request, quiz_id):
+    if request.method == "POST":
+        pass
+    else:
+        quiz = Quiz.objects.get(pk = quiz_id)
+        return render(request, "AdvancedDict/quizDisplay.html", {
+            "quiz": quiz
+        })
+     
 
 @csrf_exempt
 def edit(request, word_id):
