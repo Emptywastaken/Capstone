@@ -6,9 +6,9 @@ from datetime import datetime
 from . import languageCodes
 
 class diff_choices(models.IntegerChoices):
-    EASY = 0, 'EASY'
+    EASY = 0, 'Easy'
     NORMAL = 1, 'Normal'
-    HARD = 2, 'HARD'
+    HARD = 2, 'Hard'
     
 class User(AbstractUser):
     pass
@@ -21,6 +21,7 @@ class NewWord(models.Model):
     sourceLanguage = models.CharField("Source language",max_length=5, choices=languageCodes.languages, default="en")
     targetLanguage = models.CharField("Target language",max_length=5, choices=languageCodes.languages, default="en")
     timestamp = models.DateTimeField(default=datetime.now())
+    quiz = models.ManyToManyField('Quiz', related_name="questions")
     
     def __str__(self) -> str:
         return f'{self.sourceLanguage} {self.text} to {self.targetLanguage} {self.translation}'
@@ -30,7 +31,7 @@ class Quiz(models.Model):
  
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     difficulty = models.IntegerField("Difficulty", choices=diff_choices.choices, default=diff_choices.EASY)
-    score = models.PositiveIntegerField(blank=True)
+    score = models.PositiveIntegerField(blank=True, null=True)
     timestamp = models.DateTimeField(default=datetime.now())
 
     def __str__(self) -> str:
@@ -40,7 +41,7 @@ class Quiz(models.Model):
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     word = models.ForeignKey(NewWord, on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questions")
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questionsz")
     
 
     def __str__(self) -> str:
