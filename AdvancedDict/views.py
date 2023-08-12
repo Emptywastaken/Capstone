@@ -119,7 +119,7 @@ def get_quiz(request, quiz_id):
             words = NewWord.objects.values_list('pk', flat=True).filter(user = request.user)
             # words = NewWord.objects.filter(user = request.user)
             print(words)
-            for _ in range(min(quiz.difficulty, len(words))):
+            for _ in range(quiz.difficulty):
                 print(random.choice(words))
                 indx = random.choice(words)
                 # words.exclude(indx)

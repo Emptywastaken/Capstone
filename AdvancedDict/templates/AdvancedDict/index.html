@@ -12,23 +12,30 @@
         <input type="submit" class="btn btn-outline-primary">
     </form>
 
-    {% if words %} <br><h1>Words</h1><hr> {% endif%}
+    {% if words %} <br><h1 style="margin-bottom: 20px;">Words</h1>
+    <div class="row align-items-start" data-id="{{word.id}}">
+        <div class="row">
+            
+            <div class="col-2" style="width: 14%;"><h5>From</h5></div>
+            <div class="col-2"><h5>To</h5></div></div></div><hr>
+    {% endif%}
 
     {% for word in words %}
     <div class="row align-items-start" data-id="{{word.id}}">
-        <div class="col align-items-start">
+        <div class="row">
 
-       
+            <div class="col-2" style="width: 14%;">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.sourceLanguage }}.png" alt="{{ word.get_sourceLanguage_display }} Flag" height="16">
             <!--{{word.get_sourceLanguage_display}}-->
-            <strong class="wordText">{{word.text|capfirst}}</strong>
-            to 
+            <strong class="wordText">{{word.text|capfirst}}</strong></div>
+ 
+            <div class="col-2">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.targetLanguage }}.png" alt="{{ word.get_targetLanguage_display }} Flag" height="16">
             {{word.get_targetLanguage_display}}
             <span class="wordTranslation">
             <strong data-translation="{{word.translation}}">{{word.translation_edited|capfirst}}<span></span></strong>
             <span></span>
-            </span>
+            </span></div>
         </div>
         <div class="col buttoncol" style="text-align: right; margin-right: 12px;">
             <button class="btn btn-outline-primary btn-sm" style="margin-right: 2px;">Translation</button>
