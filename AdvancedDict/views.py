@@ -20,7 +20,7 @@ from datetime import datetime
 from .models import User, NewWord, Quiz, Question, Answer
 from . import languageCodes
 
-import requests, os, json
+import requests, os, json, random
 from dotenv import load_dotenv
 # export PYTHONPATH=c:/users/admin/appdata/local/programs/python/python311/lib/site-packages
 
@@ -47,7 +47,7 @@ class New_quiz(ModelForm):
         fields = ("difficulty",)
 
         widgets = {
-            "difficulty": forms.Select(attrs={"class": "form-select"})
+            "difficulty": forms.Select(attrs={"class": "form-select form-select-lg"})
         }
 
 def index(request):
@@ -94,11 +94,11 @@ def generate_quiz(request):
         form = New_quiz(request.POST)
         if form.is_valid:
             new_quiz_form = form.save(commit=False)
-            new_quiz_form.timestamp = datetime.now()
+            new_quiz_form.timestamp = datetime.now(tz=None)
             new_quiz_form.user = request.user
             new_quiz_form.save()
             print(new_quiz_form.pk)
-            return HttpResponseRedirect(f"quiz/{new_quiz_form.pk}")
+            return HttpResponseRedirect(f"{new_quiz_form.pk}")
     else:
         return render(request, "AdvancedDict/newQuiz.html", {
             "form": New_quiz
@@ -111,8 +111,28 @@ def get_quiz(request, quiz_id):
         pass
     else:
         quiz = Quiz.objects.get(pk = quiz_id)
+        print("diff" ,quiz.difficulty)
+        question_count = quiz.questions.all().count()
+        print("count", question_count)
+
+        if question_count != quiz.difficulty:
+            words = NewWord.objects.values_list('pk', flat=True).filter(user = request.user)
+            # words = NewWord.objects.filter(user = request.user)
+            print(words)
+            for _ in range(min(quiz.difficulty, len(words))):
+                print(random.choice(words))
+                indx = random.choice(words)
+                # words.exclude(indx)
+                quiz.questions.add(NewWord.objects.get(pk = indx))
+
+        p = Paginator(quiz.questions.all(), 1)
+        page = request.GET.get('page')
+        page_obj = p.get_page(page)
+        print(quiz.questions.all())
         return render(request, "AdvancedDict/quizDisplay.html", {
-            "quiz": quiz
+            "quiz": quiz,
+            "page": page_obj,
+            "dict": languageCodes.languages_to_countries_dict,
         })
      
 
