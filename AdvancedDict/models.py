@@ -5,11 +5,10 @@ from datetime import datetime
 # Create your models here.
 from . import languageCodes
 
-DIFF = [
-    ("Easy", 3),
-    ("Medium", 6),
-    ("Hard", 10),
-    ]
+class diff_choices(models.IntegerChoices):
+    EASY = 0, 'EASY'
+    NORMAL = 1, 'Normal'
+    HARD = 2, 'HARD'
     
 class User(AbstractUser):
     pass
@@ -27,10 +26,10 @@ class NewWord(models.Model):
         return f'{self.sourceLanguage} {self.text} to {self.targetLanguage} {self.translation}'
 
 class Quiz(models.Model):
-
+    
  
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    difficulty = models.IntegerField("Difficulty", choices=DIFF, default=3)
+    difficulty = models.IntegerField("Difficulty", choices=diff_choices.choices, default=diff_choices.EASY)
     score = models.PositiveIntegerField(blank=True)
     timestamp = models.DateTimeField(default=datetime.now())
 
