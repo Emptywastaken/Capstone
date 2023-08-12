@@ -1,0 +1,16 @@
+{% extends "AdvancedDict/layout.html" %}
+{% load static %}
+{% load tags_extra %}
+
+{% block body %}
+<div class="container-lg">
+{% if user.is_authenticated %}
+    <form method="post" style="margin-top: 40px;" action="{% url 'generate quiz' %}">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" class="btn btn-primary" value="Start">
+    </form>
+{% endif %}
+</div>
+{% endblock %}
