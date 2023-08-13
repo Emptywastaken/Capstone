@@ -17,7 +17,7 @@ from django.core.paginator import Paginator
 
 from datetime import datetime
 
-from .models import User, NewWord, Quiz, Question, Answer
+from .models import User, NewWord, Quiz, Answer
 from . import languageCodes
 
 import requests, os, json, random
@@ -48,6 +48,15 @@ class New_quiz(ModelForm):
 
         widgets = {
             "difficulty": forms.Select(attrs={"class": "form-select form-select-lg"})
+        }
+
+class New_answer(ModelForm):
+    class Meta:
+        model = Answer
+        fields = ("text",)
+
+        widgets = {
+            "text": forms.CharField(attrs={"class": "form-control"})
         }
 
 def index(request):

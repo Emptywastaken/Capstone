@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
         edit_btn.onclick = () => {
             
-            const parentDiv = edit_btn.parentElement.parentElement;
+            const parentDiv = edit_btn.parentElement.parentElement.parentElement;
             const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
             const form = parentDiv.querySelector('.wordTranslation').querySelector('span');
             const wordId = parentDiv.getAttribute('data-id');
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // delete function 
     document.querySelectorAll('.btn-outline-danger').forEach((delete_btn) => {
 
-        const parentDiv = delete_btn.parentElement.parentElement;
+        const parentDiv = delete_btn.parentElement.parentElement.parentElement;
         const wordId = parentDiv.getAttribute('data-id');
         
         // ajax request to edit post
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelectorAll('.btn-outline-primary').forEach((translate_btn => {
         translate_btn.onclick = () => {
 
-            const parentDiv = translate_btn.parentElement.parentElement;
+            const parentDiv = translate_btn.parentElement.parentElement.parentElement;
             const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
             const translation = text.getAttribute('data-translation');
             console.log(translation);

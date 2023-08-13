@@ -16,19 +16,20 @@
     <div class="row align-items-start" data-id="{{word.id}}">
         <div class="row">
             
-            <div class="col-2" style="width: 14%;"><h5>From</h5></div>
-            <div class="col-2"><h5>To</h5></div></div></div><hr>
+            <div class="col-2" style="width: 16%;"><h5>From</h5></div>
+            <div class="col-2"><h5>To</h5></div></div></div><hr style="margin-top: 4px;">
     {% endif%}
 
     {% for word in words %}
-    <div class="row align-items-start" data-id="{{word.id}}">
-        <div class="row">
+    <div class="row align-items-center" data-id="{{word.id}}">
+        <div class="row align-items-center">
 
-            <div class="col-2" style="width: 14%;">
+            <div class="col-2" style="width: 16%;">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.sourceLanguage }}.png" alt="{{ word.get_sourceLanguage_display }} Flag" height="16">
             <!--{{word.get_sourceLanguage_display}}-->
             <strong class="wordText">{{word.text|capfirst}}</strong></div>
  
+          
             <div class="col-2">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.targetLanguage }}.png" alt="{{ word.get_targetLanguage_display }} Flag" height="16">
             {{word.get_targetLanguage_display}}
@@ -36,11 +37,11 @@
             <strong data-translation="{{word.translation}}">{{word.translation_edited|capfirst}}<span></span></strong>
             <span></span>
             </span></div>
-        </div>
-        <div class="col buttoncol" style="text-align: right; margin-right: 12px;">
-            <button class="btn btn-outline-primary btn-sm" style="margin-right: 2px;">Translation</button>
-            <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
-            <button class="btn btn-outline-danger btn-sm">Delete</button>
+            <div class="col buttoncol" style="text-align: right; margin-right: 12px;">
+                <button class="btn btn-outline-primary btn-sm" style="margin-right: 2px;">Translation</button>
+                <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>
+                <button class="btn btn-outline-danger btn-sm">Delete</button>
+            </div>
         </div>
         <hr style="margin-top: 12px;">
     </div>
