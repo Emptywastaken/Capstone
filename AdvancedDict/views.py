@@ -131,17 +131,20 @@ def get_quiz(request, quiz_id):
             q_pk = request.POST.get("question")
             
             # Making quiz more user-friendly, so it checks if answer is correct for any words with same translation
+            print(q_pk)
             temp_word = NewWord.objects.get(pk = q_pk).translation_edited
-            
-            matching_values = NewWord.objects.filter(text=temp_word).values_list("text", flat=True)
-            print(matching_values)
+            print("temp word",temp_word)
+            matching_values = NewWord.objects.filter(translation_edited=temp_word).values_list("text", flat=True)
+            print("Correct",matching_values)
+            print("answer:",new_answer_form.text.lower())
             if new_answer_form.text.lower() in list(matching_values):
+                print("right!")
                 new_answer_form.correct = True
             new_answer_form.save()
 
             # linking answer to quiz
             quiz.answers.add(new_answer_form)
-        # print(request.POST)
+            # print(request.POST)
             page = int(request.POST.get("page", 1))
             print("page", page)
 
@@ -149,6 +152,7 @@ def get_quiz(request, quiz_id):
                 # Updating quiz score onsubmit
                 answers_score = sum(list(quiz.answers.all().values_list("correct", flat=True)))
                 quiz.score = answers_score
+                print(quiz.score)
                 quiz.save()
                 return HttpResponseRedirect(reverse("index"))
             return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
