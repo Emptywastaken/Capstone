@@ -47,9 +47,8 @@ class Quiz(models.Model):
 
     
 class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField("User's answer", max_length=50)
     correct = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f'{self.user} answered {self.text}'
+        return f'{self.user} answered {self.text} at {self.quiz} quiz'

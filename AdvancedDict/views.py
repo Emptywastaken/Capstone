@@ -118,12 +118,15 @@ def generate_quiz(request):
 def get_quiz(request, quiz_id):
 
     quiz = Quiz.objects.get(pk = quiz_id)
+
+    if request.user != quiz.user:
+        return HttpResponse(status=400)
+    
     if request.method == "POST":    
 
         form = New_answer(request.POST)
         if form.is_valid:
             new_answer_form = form.save(commit=False)
-            new_answer_form.user = request.user
             q_pk = request.POST.get("question")
             
             # Making quiz more user-friendly, so it checks if answer is correct for any words with same translation
