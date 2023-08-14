@@ -119,22 +119,26 @@ def get_quiz(request, quiz_id):
 
     quiz = Quiz.objects.get(pk = quiz_id)
     if request.method == "POST":    
-        # print(quiz_id)
+
         form = New_answer(request.POST)
         if form.is_valid:
             new_answer_form = form.save(commit=False)
             new_answer_form.user = request.user
             q_pk = request.POST.get("question")
-            print(q_pk)
+            
+            # Making quiz more user-friendly, so it checks if answer is correct for any words with same translation
             temp_word = NewWord.objects.get(pk = q_pk).translation_edited
-            print(temp_word)
+            
             matching_values = NewWord.objects.filter(text=temp_word).values_list('text', flat=True)
             print(matching_values)
             if new_answer_form.text in list(matching_values):
                 new_answer_form.correct = True
             new_answer_form.save()
+
+            # linking answer to quiz
             quiz.answers.add(new_answer_form)
-        print(request.POST)
+        # print(request.POST)
+
         page = int(request.POST.get("page", 1))
         print("page", page)
         return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
