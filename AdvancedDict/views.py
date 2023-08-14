@@ -228,7 +228,7 @@ def edit(request, word_id):
     if request.method == "PUT":
         data = json.loads(request.body) 
         if data.get("translation") is not None:
-            word.translation_edited = data["translation"]
+            word.translation_edited = data["translation"].lower()
             word.save()
             return HttpResponse(status=204)
         else:
