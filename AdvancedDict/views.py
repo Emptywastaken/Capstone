@@ -165,7 +165,7 @@ def get_quiz(request, quiz_id):
         question_count = quiz.questions.all().count()
         # print("diff" ,quiz.difficulty)
         # print("count", question_count)
-        if question_count != quiz.difficulty:
+        if question_count < quiz.difficulty:
             words = NewWord.objects.values_list('pk', flat=True).filter(user = request.user)
             # words = NewWord.objects.filter(user = request.user)
             # print(words)
