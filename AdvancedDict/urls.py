@@ -10,6 +10,7 @@ urlpatterns = [
     path("quiz/new", views.generate_quiz, name="generate quiz"),
     path("quiz/<int:quiz_id>", views.get_quiz, name="display quiz"),
     path("quiz/report/<int:quiz_id>", views.report_quiz, name="report quiz"),
+    path("reports", views.all_reports, name="reports"),
 
     #API
     path("edit/<int:word_id>", views.edit, name="edit"),

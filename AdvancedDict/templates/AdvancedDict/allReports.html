@@ -1,0 +1,36 @@
+
+{% extends "AdvancedDict/layout.html" %}
+{% load static %}
+{% load tags_extra %}
+
+{% block body %}
+
+
+
+<div class="container-lg" style="margin-top: 30px;">
+    <div class="row align-items-start">
+    {% if user.is_authenticated %}        
+    <br><h1 style="margin-bottom: 20px; margin-top: 40px;">Quizes</h1>
+    <div class="row align-items-start" >
+        <div class="row">
+            
+            <div class="col-2" style="width: 16%;"><h5>Difficulty</h5></div>
+            <div class="col-2" style="margin-left: 6px;"><h5>Score</h5></div>
+            <div class="col-2" style="margin-left: 10px;"><h5>Timestamp</h5></div></div></div><hr style="margin-top: 4px; margin-bottom: 0px;">
+
+    {% for quiz in quizes %}  
+    <a href="{% url 'report quiz' quiz.id%}">
+    <div class="row align-items-center block" data-correct="{{answer.correct}}" style="padding-bottom: 12px; padding-top: 12px; ">
+
+        <div class="col-2" style="width: 16%;">
+        <strong>{{quiz.get_difficulty_display}}</strong></div>
+      
+        <div class="col-2">
+        <strong data-translation="{{word.translation}}">{{quiz.score}} of {{quiz.answers.count}}</strong></div>
+        <div class="col-2">{{quiz.timestamp}}</div>
+    </div><hr style="margin-bottom: 0px;"></a>
+ 
+    {% endfor %}
+    </div></div>
+    {% endif %}
+    {% endblock %}

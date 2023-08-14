@@ -22,8 +22,10 @@
 <div class="container-lg" style="margin-top: 30px;">
     <div class="row align-items-start">
     {% if user.is_authenticated %}
-        <h1>{{percent}}%</h1>
-        <h4>{{quiz.score}} out of {{quiz.difficulty}}</h4>
+    <h6 style="opacity: 75%; font-weight: 400; margin-bottom: 2px;">{{quiz.timestamp}}</h6>
+        <h1 style="margin-bottom: 4px; margin-top: 2px;">{{percent}}%</h1>
+        <h4>{{quiz.score}} out of {{quiz.answers.count}}</h4>
+        
     <br><h1 style="margin-bottom: 20px; margin-top: 40px;">Answers</h1>
     <div class="row align-items-start" >
         <div class="row">
@@ -69,3 +71,21 @@
 {% endif %}
 </div>
 {% endblock %}
+
+    <!--
+    {% if page.paginator.num_pages > 1 %} 
+    <div class="pagination" style="margin-top: 48px; margin-left: 7.7%">
+        <span class="step-links">
+            <ul class="pagination justify-content-center pagination-lg">
+              
+            {% if page.has_next %}
+            <!--<a href="?page={{ page.next_page_number }}">next</a>
+            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next" style="border-width: 3px;">
+                <span style="font-weight: 550; font-size: 20px;">Next</span></a></li>
+            {% endif %}
+        </span>
+          </ul>
+    </div>
+    {% endif %}
+    -->

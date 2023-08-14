@@ -9,6 +9,11 @@ h1 {
 form .btn{
     margin-top: 12px;
 }
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: none; /* no underline */
+  }
+  
 
 form label{
     margin-top: 8px;

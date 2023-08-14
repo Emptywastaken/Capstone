@@ -203,7 +203,14 @@ def report_quiz(request, quiz_id):
         "dict": languageCodes.languages_to_countries_dict,
         "quiz": quiz,
         "answers": quiz.answers.all(),
-        "percent": f"{(float(quiz.score) / float(quiz.difficulty))*100:.1f}",
+        "percent": f"{(float(quiz.score) / float(quiz.answers.all().count()))*100:.1f}",
+    })
+
+@login_required
+def all_reports(request):
+    quizes = Quiz.objects.filter(score__isnull = False , user = request.user).order_by('-timestamp')
+    return render(request, "AdvancedDict/allReports.html", {
+        "quizes": quizes
     })
 
 @csrf_exempt
