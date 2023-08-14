@@ -91,9 +91,12 @@ def index(request):
 
     else:
         words = NewWord.objects.filter(user = request.user).order_by('-timestamp')
+        p = Paginator(words, 20)
+        page = request.GET.get('page')
+        page_obj = p.get_page(page)
         return render(request, "AdvancedDict/index.html", {
             "form": New_word,
-            "words": words,
+            "page": page_obj,
             "dict": languageCodes.languages_to_countries_dict,
             })
 

@@ -5,23 +5,24 @@
 {% block body %}
 <div class="container-lg">
 {% if user.is_authenticated %}
-    <form method="post" style="margin-top: 40px;" action="{% url 'index' %}">
+{% if page.number == 1%}
+    <form method="post" style="margin-top: 40px; margin-bottom: 0px;" action="{% url 'index' %}">
         {% csrf_token %}
         {{ form }}
         <br>
         <input type="submit" class="btn btn-outline-primary">
     </form>
-
-    {% if words %} <br><h1 style="margin-bottom: 20px;">Words</h1>
+    {% endif %}
+    {% if page %} <br><h1 style="margin-bottom: 20px;">Words</h1>
     <div class="row align-items-start" data-id="{{word.id}}">
         <div class="row">
             
             <div class="col-2" style="width: 16%;"><h5>From</h5></div>
             <div class="col-2"><h5>To</h5></div></div></div><hr style="margin-top: 4px;">
     {% endif%}
-
-    {% for word in words %}
-    <div class="row align-items-center" data-id="{{word.id}}">
+    <div style="margin-top: 5px;">
+    {% for word in page %}
+    <div class="row align-items-center" data-id="{{word.id}}" st>
         <div class="row align-items-center">
 
             <div class="col-2" style="width: 16%;">
@@ -48,6 +49,33 @@
     {%empty%}
     <br><h4 style="margin-top: 36px;">Words you add will display here...</h4><hr>
     {% endfor%}
+    </div>
+    <!--Paginator-->
+    {% if page.paginator.num_pages > 1 %} 
+    <div class="pagination" style="margin-top: 24px;">
+        <span class="step-links">
+            <ul class="pagination justify-content-center"">
+            {% if page.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">{{ page.previous_page_number }}</a></li>
+                <!--<a href="?page={{ page.previous_page_number }}">previous</a>-->
+            {% endif %}
+
+            <span class="current">
+                <li class="page-item active"><a class="page-link" href="?page={{ page }}" aria-label="Previous">{{ page.number }}</a></li>
+            </span>
+
+            {% if page.has_next %}
+            <!--<a href="?page={{ page.next_page_number }}">next</a>
+            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>-->
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Previous">{{ page.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+        </span>
+          </ul>
+    </div>
+    {% endif %}
+
 {% endif %}
 </div>
 {% endblock %}
