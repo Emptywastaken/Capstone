@@ -30,10 +30,10 @@
             <strong class="wordText">{{word.text|capfirst}}</strong></div>
  
           
-            <div class="col-2">
+            <div class="col-3">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.targetLanguage }}.png" alt="{{ word.get_targetLanguage_display }} Flag" height="16">
             {{word.get_targetLanguage_display}}
-            <span class="wordTranslation">
+            <span class="wordTranslation"  style="text-transform: capitalize;">
             <strong data-translation="{{word.translation}}">{{word.translation_edited|capfirst}}<span></span></strong>
             <span></span>
             </span></div>

@@ -82,9 +82,10 @@ def index(request):
             
             response = requests.post(url, data=payload, headers=headers)
             new_word_form.timestamp = datetime.now() 
-            new_word_form.translation = response.json()["data"]["translatedText"]
-            new_word_form.translation_edited = response.json()["data"]["translatedText"]
+            new_word_form.translation = response.json()["data"]["translatedText"].lower()
+            new_word_form.translation_edited = response.json()["data"]["translatedText"].lower()
             new_word_form.user = request.user
+            new_word_form.text = new_word_form.text.lower()
             new_word_form.save()
             return HttpResponseRedirect(reverse('index'))
 
@@ -134,18 +135,21 @@ def get_quiz(request, quiz_id):
             
             matching_values = NewWord.objects.filter(text=temp_word).values_list('text', flat=True)
             print(matching_values)
-            if new_answer_form.text in list(matching_values):
+            if new_answer_form.text.lower() in list(matching_values):
                 new_answer_form.correct = True
             new_answer_form.save()
 
             # linking answer to quiz
             quiz.answers.add(new_answer_form)
         # print(request.POST)
+            page = int(request.POST.get("page", 1))
+            print("page", page)
+            return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
 
-        page = int(request.POST.get("page", 1))
-        print("page", page)
-        return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
-    
+        # if form is invalid
+        else:
+            return HttpResponse(status=400)
+        
     else:    
         question_count = quiz.questions.all().count()
         # print("diff" ,quiz.difficulty)

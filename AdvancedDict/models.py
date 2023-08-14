@@ -51,4 +51,4 @@ class Answer(models.Model):
     correct = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f'{self.user} answered {self.text} at {self.quiz} quiz'
+        return f'{self.quiz.get()} quiz answered {self.text}'
