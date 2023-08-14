@@ -56,7 +56,7 @@ class New_answer(ModelForm):
         fields = ("text",)
 
         widgets = {
-            "text": forms.CharField(attrs={"class": "form-control"})
+            "text": forms.TextInput(attrs={"class": "form-control"})
         }
 
 def index(request):

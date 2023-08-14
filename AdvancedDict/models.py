@@ -34,6 +34,7 @@ class Quiz(models.Model):
     score = models.PositiveIntegerField(blank=True, null=True)
     timestamp = models.DateTimeField(default=datetime.now())
     questions = models.ManyToManyField(NewWord, related_name="quiz")
+    answers = models.ManyToManyField("Answer", related_name="quiz")
 
     def __str__(self) -> str:
         return f'{self.user} got {self.score} at {self.timestamp.strftime("%d %B %Y %H:%M")}' 
@@ -42,18 +43,9 @@ class Quiz(models.Model):
         verbose_name_plural = "Quizes"
 
 
-class Question(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    word = models.ForeignKey(NewWord, on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questionsz")
-    
 
-    def __str__(self) -> str:
-        return f'{self.word}'
 
     
 class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answer")
     text = models.CharField("User's answer", max_length=50)
     correct = models.BooleanField(default=False)
