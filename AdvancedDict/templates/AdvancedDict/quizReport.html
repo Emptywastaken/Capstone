@@ -3,18 +3,35 @@
 {% load tags_extra %}
 
 {% block body %}
-<div class="container-lg" style="margin-top: 120px;">
-    <div class="row align-items-start" style="margin-top: 80px;">
-    {% if user.is_authenticated %}
-        {{quiz.score}} out of {{quiz.difficulty}}
-    <br><h1 style="margin-bottom: 20px;">Answers</h1>
+<script>
+    addEventListener('DOMContentLoaded', ()=>{
+        document.querySelectorAll('.block').forEach((parentblock) => {
+            const cor = parentblock.getAttribute("data-correct")
+            if (cor == 'True') {
+                //pass
+            } else {
+                parentblock.style.backgroundColor  = '#ff7f7f   ';
+
+            }
+        })
+        
+    })
+
+</script>
+
+<div class="container-lg" style="margin-top: 30px;">
     <div class="row align-items-start">
+    {% if user.is_authenticated %}
+        <h1>{{percent}}%</h1>
+        <h4>{{quiz.score}} out of {{quiz.difficulty}}</h4>
+    <br><h1 style="margin-bottom: 20px; margin-top: 40px;">Answers</h1>
+    <div class="row align-items-start" >
         <div class="row">
             
             <div class="col-2" style="width: 16%;"><h5>Asked</h5></div>
-            <div class="col-2"><h5>Answer</h5></div></div></div><hr style="margin-top: 4px;">
+            <div class="col-2"><h5>Answer</h5></div></div></div><hr style="margin-top: 4px; margin-bottom: 0px;">
     {% for answer in answers %}   
-    <div class="row align-items-center" data-correct="{{answer.correct}}">
+    <div class="row align-items-center block" data-correct="{{answer.correct}}" style="padding-bottom: 12px; padding-top: 12px; ">
 
         <div class="col-2" style="width: 16%;">
         <img src="https://flagcdn.com/48x36/{{ dict|newitem:answer.question.targetLanguage }}.png" alt="{{ answer.question.get_targetLanguage_display }} Flag" height="16">
@@ -28,7 +45,7 @@
         <span class="wordTranslation"  style="text-transform: capitalize;">
         <strong data-translation="{{word.translation}}">{{answer.text}}<span></span></strong>
         <span></span>
-        </span></div></div><hr style="margin-top: 12px;">
+        </span></div></div><hr style="margin-bottom: 0px;">
  
     {% endfor %}
     </div>

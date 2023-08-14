@@ -202,7 +202,8 @@ def report_quiz(request, quiz_id):
     return render(request, "AdvancedDict/quizReport.html", {
         "dict": languageCodes.languages_to_countries_dict,
         "quiz": quiz,
-        "answers": quiz.answers.all()
+        "answers": quiz.answers.all(),
+        "percent": f"{(float(quiz.score) / float(quiz.difficulty))*100:.1f}",
     })
 
 @csrf_exempt
