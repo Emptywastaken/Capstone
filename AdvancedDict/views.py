@@ -134,10 +134,12 @@ def get_quiz(request, quiz_id):
             q_pk = request.POST.get("question")
             
             # Making quiz more user-friendly, so it checks if answer is correct for any words with same translation
-            print(q_pk)
-            temp_word = NewWord.objects.get(pk = q_pk).translation_edited
-            print("temp word",temp_word)
-            matching_values = NewWord.objects.filter(translation_edited=temp_word).values_list("text", flat=True)
+            # print(q_pk)
+            temp_word = NewWord.objects.get(pk = q_pk)
+            print(temp_word)
+            new_answer_form.question = temp_word
+            new_answer_form.asked = temp_word.translation_edited
+            matching_values = NewWord.objects.filter(translation_edited=temp_word.translation_edited).values_list("text", flat=True)
             print("Correct",matching_values)
             print("answer:",new_answer_form.text.lower())
             if new_answer_form.text.lower() in list(matching_values):
@@ -157,7 +159,7 @@ def get_quiz(request, quiz_id):
                 quiz.score = answers_score
                 print(quiz.score)
                 quiz.save()
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("report quiz", kwargs={"quiz_id": quiz_id}))
             return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
 
         # if form is invalid
@@ -188,9 +190,23 @@ def get_quiz(request, quiz_id):
             "dict": languageCodes.languages_to_countries_dict,
             "form": New_answer
         })
-     
+
+@login_required
+def report_quiz(request, quiz_id):
+
+    quiz = Quiz.objects.get(pk = quiz_id)
+
+    if request.user != quiz.user:
+        return HttpResponse(status=400)
+    
+    return render(request, "AdvancedDict/quizReport.html", {
+        "dict": languageCodes.languages_to_countries_dict,
+        "quiz": quiz,
+        "answers": quiz.answers.all()
+    })
 
 @csrf_exempt
+@login_required
 def edit(request, word_id):
     try: 
         word = NewWord.objects.get(pk = word_id)
@@ -213,6 +229,7 @@ def edit(request, word_id):
     elif request.method == "DELETE":
         word.delete()
         return HttpResponse(status=204)
+
 
 def login_view(request):
     if request.method == "POST":

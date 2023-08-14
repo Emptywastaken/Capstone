@@ -1,0 +1,54 @@
+{% extends "AdvancedDict/layout.html" %}
+{% load static %}
+{% load tags_extra %}
+
+{% block body %}
+<div class="container-lg" style="margin-top: 120px;">
+    <div class="row align-items-start" style="margin-top: 80px;">
+    {% if user.is_authenticated %}
+        {{quiz.score}} out of {{quiz.difficulty}}
+    <br><h1 style="margin-bottom: 20px;">Answers</h1>
+    <div class="row align-items-start">
+        <div class="row">
+            
+            <div class="col-2" style="width: 16%;"><h5>Asked</h5></div>
+            <div class="col-2"><h5>Answer</h5></div></div></div><hr style="margin-top: 4px;">
+    {% for answer in answers %}   
+    <div class="row align-items-center" data-correct="{{answer.correct}}">
+
+        <div class="col-2" style="width: 16%;">
+        <img src="https://flagcdn.com/48x36/{{ dict|newitem:answer.question.targetLanguage }}.png" alt="{{ answer.question.get_targetLanguage_display }} Flag" height="16">
+        <!--{{word.get_sourceLanguage_display}}-->
+        <strong class="wordText">{{answer.question.translation_edited|capfirst}}</strong></div>
+
+      
+        <div class="col-3">
+        <img src="https://flagcdn.com/48x36/{{ dict|newitem:answer.question.sourceLanguage }}.png" alt="{{ word.get_sourceLanguage_display }} Flag" height="16">
+        {{word.get_sourceLanguage_display}}
+        <span class="wordTranslation"  style="text-transform: capitalize;">
+        <strong data-translation="{{word.translation}}">{{answer.text}}<span></span></strong>
+        <span></span>
+        </span></div></div><hr style="margin-top: 12px;">
+ 
+    {% endfor %}
+    </div>
+    <!--
+    {% if page.paginator.num_pages > 1 %} 
+    <div class="pagination" style="margin-top: 48px; margin-left: 7.7%">
+        <span class="step-links">
+            <ul class="pagination justify-content-center pagination-lg">
+              
+            {% if page.has_next %}
+            <!--<a href="?page={{ page.next_page_number }}">next</a>
+            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next" style="border-width: 3px;">
+                <span style="font-weight: 550; font-size: 20px;">Next</span></a></li>
+            {% endif %}
+        </span>
+          </ul>
+    </div>
+    {% endif %}
+    -->
+{% endif %}
+</div>
+{% endblock %}

@@ -48,6 +48,7 @@ class Quiz(models.Model):
     
 class Answer(models.Model):
     text = models.CharField("User's answer", max_length=50)
+    question = models.ForeignKey(NewWord, related_name="answer", on_delete=models.RESTRICT)
     correct = models.BooleanField(default=False)
 
     def __str__(self) -> str:
