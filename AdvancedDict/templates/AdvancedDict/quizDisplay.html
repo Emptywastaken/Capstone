@@ -16,7 +16,8 @@
         <img src="https://flagcdn.com/48x36/{{ dict|newitem:question.sourceLanguage }}.png" alt="{{ question.get_sourceLanguage_display }} Flag" height="16">
         {{question.get_sourceLanguage_display}}</h5></div>
         <div class="col-9">
-            <form class="form=control" style="margin-top: 20px;"> <input class="form-control" type="text" required placeholder="Transtation"> 
+            <form class="form=control" style="margin-top: 20px;" action="{% url 'display quiz' quiz.id %}" method="post"> {{form}} 
+                <input class="form-control" type="hidden" value="{{page}}"> 
             </form> </div>
             </div>
     {% endfor %}

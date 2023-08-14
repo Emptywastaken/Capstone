@@ -47,5 +47,6 @@ class Quiz(models.Model):
 
     
 class Answer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField("User's answer", max_length=50)
     correct = models.BooleanField(default=False)

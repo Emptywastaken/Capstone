@@ -117,12 +117,17 @@ def generate_quiz(request):
 @login_required
 def get_quiz(request, quiz_id):
     if request.method == "POST":
-        pass
+        print(quiz_id)
+        print(New_answer(request.POST))
+        page = request.POST.get("page", 1)
+        print("page", page)
+        return HttpResponseRedirect(reverse("display quiz") + f"/{quiz_id}?page={page}")
     else:
         quiz = Quiz.objects.get(pk = quiz_id)
-        print("diff" ,quiz.difficulty)
         question_count = quiz.questions.all().count()
-        print("count", question_count)
+
+        # print("diff" ,quiz.difficulty)
+        # print("count", question_count)
 
         if question_count != quiz.difficulty:
             words = NewWord.objects.values_list('pk', flat=True).filter(user = request.user)
@@ -137,11 +142,12 @@ def get_quiz(request, quiz_id):
         p = Paginator(quiz.questions.all(), 1)
         page = request.GET.get('page')
         page_obj = p.get_page(page)
-        print(quiz.questions.all())
+        # print(quiz.questions.all())
         return render(request, "AdvancedDict/quizDisplay.html", {
             "quiz": quiz,
             "page": page_obj,
             "dict": languageCodes.languages_to_countries_dict,
+            "form": New_answer
         })
      
 
