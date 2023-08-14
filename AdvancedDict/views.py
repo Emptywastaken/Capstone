@@ -56,7 +56,7 @@ class New_answer(ModelForm):
         fields = ("text",)
 
         widgets = {
-            "text": forms.TextInput(attrs={"class": "form-control"})
+            "text": forms.TextInput(attrs={"class": "form-control form-control-lg"})
         }
 
 def index(request):
@@ -116,30 +116,44 @@ def generate_quiz(request):
 @csrf_exempt
 @login_required
 def get_quiz(request, quiz_id):
-    if request.method == "POST":
-        print(quiz_id)
-        print(New_answer(request.POST))
-        page = request.POST.get("page", 1)
-        print("page", page)
-        return HttpResponseRedirect(reverse("display quiz") + f"/{quiz_id}?page={page}")
-    else:
-        quiz = Quiz.objects.get(pk = quiz_id)
-        question_count = quiz.questions.all().count()
 
+    quiz = Quiz.objects.get(pk = quiz_id)
+    if request.method == "POST":    
+        # print(quiz_id)
+        form = New_answer(request.POST)
+        if form.is_valid:
+            new_answer_form = form.save(commit=False)
+            new_answer_form.user = request.user
+            q_pk = request.POST.get("question")
+            print(q_pk)
+            temp_word = NewWord.objects.get(pk = q_pk).translation_edited
+            print(temp_word)
+            matching_values = NewWord.objects.filter(text=temp_word).values_list('text', flat=True)
+            print(matching_values)
+            if new_answer_form.text in list(matching_values):
+                new_answer_form.correct = True
+            new_answer_form.save()
+            quiz.answers.add(new_answer_form)
+        print(request.POST)
+        page = int(request.POST.get("page", 1))
+        print("page", page)
+        return HttpResponseRedirect(reverse("display quiz", kwargs={"quiz_id": quiz_id}) + f"?page={page+1}")
+    
+    else:    
+        question_count = quiz.questions.all().count()
         # print("diff" ,quiz.difficulty)
         # print("count", question_count)
-
         if question_count != quiz.difficulty:
             words = NewWord.objects.values_list('pk', flat=True).filter(user = request.user)
             # words = NewWord.objects.filter(user = request.user)
-            print(words)
+            # print(words)
             for _ in range(quiz.difficulty):
-                print(random.choice(words))
+                # print(random.choice(words))
                 indx = random.choice(words)
                 # words.exclude(indx)
                 quiz.questions.add(NewWord.objects.get(pk = indx))
 
-        p = Paginator(quiz.questions.all(), 1)
+        p = Paginator(quiz.questions.all().order_by('pk'), 1)
         page = request.GET.get('page')
         page_obj = p.get_page(page)
         # print(quiz.questions.all())

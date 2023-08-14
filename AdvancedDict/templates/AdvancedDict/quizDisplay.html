@@ -8,20 +8,27 @@
     {% if user.is_authenticated %}
     {%for question in page%}
         <div class="col-3" style="text-align: center;">
-        <h5 >Translate</h5>
-        <h3>{{question.translation_edited}}</h3> 
+        <h5 style="margin-top: 12px; margin-bottom: 6px;">Translate</h5>
+        <h3>{{question.translation_edited|capfirst}}</h3> 
         
         <h5 style="margin-bottom: 15px;">
         to
         <img src="https://flagcdn.com/48x36/{{ dict|newitem:question.sourceLanguage }}.png" alt="{{ question.get_sourceLanguage_display }} Flag" height="16">
         {{question.get_sourceLanguage_display}}</h5></div>
         <div class="col-9">
-            <form class="form=control" style="margin-top: 20px;" action="{% url 'display quiz' quiz.id %}" method="post"> {{form}} 
-                <input class="form-control" type="hidden" value="{{page}}"> 
+            <form class="form=control" action="{% url 'display quiz' quiz.id %}" method="post"> {{form}} 
+                <input type="hidden" value="{{question.id}}" name="question"> </input>
+                {% if page.has_next%}
+                <input type="hidden" value="{{page.number}}" name="page"> </input>
+                <input type="submit" value="Next"class="btn btn-primary" style="margin-top: 20px;"></input>
+                {% else %}
+                <input type="hidden" value="true" name="final"> </input>
+                <input type="submit" value="Submit" class="btn btn-primary" style="margin-top: 20px;"></input>
+                {% endif %}
             </form> </div>
             </div>
     {% endfor %}
-
+    <!--
     {% if page.paginator.num_pages > 1 %} 
     <div class="pagination" style="margin-top: 48px; margin-left: 7.7%">
         <span class="step-links">
@@ -29,7 +36,7 @@
               
             {% if page.has_next %}
             <!--<a href="?page={{ page.next_page_number }}">next</a>
-            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>-->
+            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>
             <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next" style="border-width: 3px;">
                 <span style="font-weight: 550; font-size: 20px;">Next</span></a></li>
             {% endif %}
@@ -37,7 +44,7 @@
           </ul>
     </div>
     {% endif %}
-
+    -->
 {% endif %}
 </div>
 {% endblock %}
