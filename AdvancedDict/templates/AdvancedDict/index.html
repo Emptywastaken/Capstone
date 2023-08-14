@@ -30,14 +30,13 @@
             <!--{{word.get_sourceLanguage_display}}-->
             <strong class="wordText">{{word.text|capfirst}}</strong></div>
  
-          
             <div class="col-3">
             <img src="https://flagcdn.com/48x36/{{ dict|newitem:word.targetLanguage }}.png" alt="{{ word.get_targetLanguage_display }} Flag" height="16">
             {{word.get_targetLanguage_display}}
             <span class="wordTranslation"  style="text-transform: capitalize;">
-            <strong data-translation="{{word.translation}}">{{word.translation_edited|capfirst}}<span></span></strong>
-            <span></span>
-            </span></div>
+            <strong>{{word.translation_edited|capfirst}}</strong>
+            <span class="forform"></span>
+            </span><span class="translation" data-translation="{{word.translation}}" style="text-transform: capitalize;"></span></div>
             <div class="col buttoncol" style="text-align: right; margin-right: 12px;">
                 <button class="btn btn-outline-primary btn-sm" style="margin-right: 2px;">Translation</button>
                 <button class="btn btn-outline-secondary btn-sm" style="margin-right: 2px;">Edit</button>

@@ -6,8 +6,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
         edit_btn.onclick = () => {
             
             const parentDiv = edit_btn.parentElement.parentElement.parentElement;
+            //console.log(parentDiv);
+            // console.log(edit_btn);
             const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
-            const form = parentDiv.querySelector('.wordTranslation').querySelector('span');
+            const form = parentDiv.querySelector('.wordTranslation').querySelector('.forform');
+            console.log(form);
             const wordId = parentDiv.getAttribute('data-id');
             const buttonElement = edit_btn.parentElement;
 
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             inputField.value = text.innerHTML;
             inputField.required = true;
             inputField.setAttribute('type', 'text');
+            inputField.style.display = 'inline';
             inputField.setAttribute('maxlength', '250');
             inputField.style.height = 'auto';
             inputField.className = 'form-control';
@@ -56,8 +60,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             buttonElement.prepend(save_btn);
             form.append(inputField);
             
-            console.log(text);
-            console.log(form);
+            //console.log(text);
+            //console.log(form);
         }
     })
 
@@ -87,11 +91,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
             const parentDiv = translate_btn.parentElement.parentElement.parentElement;
             const text = parentDiv.querySelector('.wordTranslation').querySelector('strong');
-            const translation = text.getAttribute('data-translation');
+            const translation_block = parentDiv.querySelector('.translation');
+            const translation = translation_block.getAttribute('data-translation');
             console.log(translation);
-            const translationTag = text.querySelector('span');
-            translationTag.innerHTML = '';
-            translationTag.innerHTML = ' / ' + translation;
+            
+            translation_block.innerHTML = '';
+            translation_block.innerHTML = ' / ' + translation;
 
         }
     }))
